@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Tags -->
+    <title>UK Salary Calculator 2025/26 - Calculate Take-Home Pay, Tax & NI</title>
+    <meta name="description" content="Use our free and accurate UK salary calculator for 2025/26 to find out your take-home pay after tax, National Insurance (NI), and student loan deductions.">
+    <meta name="keywords" content="uk salary calculator, take home pay, salary, tax, national insurance, NI, tax year 2025/26, pension, student loan, gross pay, net pay">
+    <meta name="author" content="Your Website Name">
+    <meta name="robots" content="index, follow"> <!-- Instructs search engines to index this page and follow links -->
+    <meta name="revisit-after" content="7 days"> <!-- Suggests re-visiting the page after 7 days -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #e8eaf6);
+            color: #1a202c;
+        }
+        .container {
+            max-width: 1024px;
+        }
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+        .nav-link:hover {
+            color: #4338ca;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-group p {
+            white-space: nowrap;
+        }
+        .form-group input, .form-group select {
+            flex-grow: 1;
+        }
+        .page-section {
+            display: none;
+        }
+        /* Print-specific styles to hide non-essential elements */
+        @media print {
+            body > *:not(.print-area) {
+                display: none;
+            }
+            .print-area {
+                display: block !important;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                border: none;
+                border-radius: 0;
+            }
+            .print-area #calculator-form, .print-area .btn-group {
+                display: none;
+            }
+            .print-area #results {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <!-- Main Container -->
+    <div class="container mx-auto">
+        <header class="text-center py-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-2 leading-tight">The Ultimate UK Salary Calculator</h1>
+            <p class="text-lg sm:text-xl text-gray-600">Work out your take-home pay for the 2025/26 tax year.</p>
+        </header>
+
+        <!-- Navigation Bar -->
+        <nav class="bg-white rounded-xl shadow-lg p-4 mb-8">
+            <ul class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 text-gray-600 font-semibold">
+                <li><a href="#home" class="nav-link transition-colors duration-200">Home</a></li>
+                <li><a href="#about" class="nav-link transition-colors duration-200">About</a></li>
+                <li><a href="#privacy" class="nav-link transition-colors duration-200">Privacy Policy</a></li>
+                <li><a href="#contact" class="nav-link transition-colors duration-200">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Grid -->
+        <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Dynamic Content Area -->
+            <div class="lg:col-span-2 card p-6 sm:p-8">
+                
+                <!-- Home Section (Calculator) -->
+                <section id="home" class="page-section print-area">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Calculate Your Take-Home Pay</h2>
+                    
+                    <!-- Calculator Form -->
+                    <form id="calculator-form" class="space-y-6">
+                        <!-- Conversational Salary and Frequency Input -->
+                        <div class="form-group text-sm font-medium text-gray-700">
+                            <p>My current salary is</p>
+                            <div class="relative rounded-md shadow-sm">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">£</span>
+                                </div>
+                                <input type="number" id="gross-salary" name="gross-salary" min="0" required class="block w-full rounded-md border-gray-300 pl-7 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3" placeholder="30,000">
+                            </div>
+                            <p>paid</p>
+                            <select id="pay-frequency" name="pay-frequency" class="block rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm p-3">
+                                <option value="annual">Annually</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="daily">Daily</option>
+                            </select>
+                            <p>.</p>
+                        </div>
+                        <!-- Conversational Tax Code Input -->
+                        <div class="form-group text-sm font-medium text-gray-700">
+                            <p>My Tax Code (optional)</p>
+                            <input type="text" id="tax-code" name="tax-code" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3" placeholder="e.g., 1257L">
+                            <p>Leave blank for the standard 1257L.</p>
+                        </div>
+                        <!-- Conversational Pension Input -->
+                        <div class="form-group text-sm font-medium text-gray-700">
+                            <p>My pension contribution is</p>
+                            <div class="relative rounded-md shadow-sm">
+                                <input type="number" id="pension-contribution" name="pension-contribution" min="0" max="100" value="5" class="block w-full rounded-md border-gray-300 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-3">
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                    <span class="text-gray-500 sm:text-sm">%</span>
+                                </div>
+                            </div>
+                            <p>of my gross salary.</p>
+                        </div>
+                        <!-- Conversational Student Loan and Location Input -->
+                        <div class="form-group text-sm font-medium text-gray-700">
+                            <p>I live in</p>
+                            <select id="region" name="region" class="block rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm p-3">
+                                <option value="ew">England & Wales</option>
+                                <option value="scotland">Scotland</option>
+                            </select>
+                            <p>and</p>
+                            <label class="flex items-center space-x-2 cursor-pointer">
+                                <input id="student-loan" name="student-loan" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span>I have a student loan (Plan 2).</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">Calculate</button>
+                    </form>
+
+                    <!-- Results Section -->
+                    <div id="results" class="mt-8 hidden">
+                        <h3 class="text-2xl font-bold mb-4 text-gray-800">Your Pay Breakdown</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-indigo-50 rounded-lg p-6">
+                                <p class="text-sm font-medium text-indigo-700">Annual Take-Home Pay</p>
+                                <p id="net-pay-annual" class="mt-1 text-4xl font-extrabold text-indigo-800">£0</p>
+                            </div>
+                            <div class="bg-indigo-50 rounded-lg p-6">
+                                <p class="text-sm font-medium text-indigo-700">Monthly Take-Home Pay</p>
+                                <p id="net-pay-monthly" class="mt-1 text-4xl font-extrabold text-indigo-800">£0</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <h4 class="text-xl font-semibold text-gray-700 mb-2">Detailed Breakdown</h4>
+                            <div class="space-y-2 text-gray-600">
+                                <div class="flex justify-between">
+                                    <span>Gross Annual Salary:</span>
+                                    <span id="gross-display-annual"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Gross Monthly Salary:</span>
+                                    <span id="gross-display-monthly"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Annual Deductions Summary -->
+                            <div class="mt-4 border-t pt-4">
+                                <h5 class="font-medium text-gray-700 mb-2">Deductions Summary (Annual)</h5>
+                                <div class="flex justify-between font-bold text-red-600 mb-2">
+                                    <span>Total Deductions:</span>
+                                    <span id="total-deductions-annual"></span>
+                                </div>
+                                <ul class="space-y-1 text-sm text-gray-600">
+                                    <li class="flex justify-between">
+                                        <span>Income Tax:</span>
+                                        <span id="income-tax-display-annual"></span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>National Insurance:</span>
+                                        <span id="ni-display-annual"></span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Pension Contribution:</span>
+                                        <span id="pension-display-annual"></span>
+                                    </li>
+                                    <li id="student-loan-row-annual" class="flex justify-between hidden">
+                                        <span>Student Loan Repayments:</span>
+                                        <span id="student-loan-display-annual"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Monthly Deductions Summary -->
+                            <div class="mt-4 border-t pt-4">
+                                <h5 class="font-medium text-gray-700 mb-2">Deductions Summary (Monthly)</h5>
+                                <div class="flex justify-between font-bold text-red-600 mb-2">
+                                    <span>Total Deductions:</span>
+                                    <span id="total-deductions-monthly"></span>
+                                </div>
+                                <ul class="space-y-1 text-sm text-gray-600">
+                                    <li class="flex justify-between">
+                                        <span>Income Tax:</span>
+                                        <span id="income-tax-display-monthly"></span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>National Insurance:</span>
+                                        <span id="ni-display-monthly"></span>
+                                    </li>
+                                    <li class="flex justify-between">
+                                        <span>Pension Contribution:</span>
+                                        <span id="pension-display-monthly"></span>
+                                    </li>
+                                    <li id="student-loan-row-monthly" class="flex justify-between hidden">
+                                        <span>Student Loan Repayments:</span>
+                                        <span id="student-loan-display-monthly"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- New Print/PDF buttons -->
+                        <div class="btn-group mt-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button id="print-button" class="w-full flex justify-center py-3 px-4 border border-indigo-600 rounded-xl shadow-sm text-md font-medium text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                                <i class="fas fa-print mr-2 flex items-center"></i> Print Pay Breakdown
+                            </button>
+                            <button id="pdf-button" class="w-full flex justify-center py-3 px-4 border border-indigo-600 rounded-xl shadow-sm text-md font-medium text-indigo-600 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                                <i class="fas fa-file-pdf mr-2 flex items-center"></i> Download as PDF
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- About Page -->
+                <section id="about" class="page-section">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">About uksalarycalc.com</h2>
+                    <p class="text-gray-700 mb-4">Welcome to uksalarycalc.com, your go-to tool for understanding your UK take-home pay. We built this calculator to make it simple and straightforward for everyone to see exactly how their gross salary breaks down into Income Tax, National Insurance, and other deductions.</p>
+                    <p class="text-gray-700 mb-4">Our mission is to provide an accurate, up-to-date, and easy-to-use resource for the 2025/26 tax year. We constantly monitor changes to tax codes, allowances, and rates to ensure our calculations are as precise as possible, giving you the clarity you need to manage your finances.</p>
+                    <p class="text-gray-700">Whether you're negotiating a new salary, checking your monthly payslip, or just curious about how UK tax works, our calculator is here to help you get the answers you need, in an instant.</p>
+                </section>
+
+                <!-- Privacy Policy Page -->
+                <section id="privacy" class="page-section">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Privacy Policy</h2>
+                    <p class="text-gray-700 mb-4">At uksalarycalc.com, your privacy is a top priority. This policy outlines how we handle your information.</p>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">1. Data Collection</h4>
+                    <p class="text-gray-700 mb-4">We do not collect or store any personal or identifiable information from you. All calculations are performed in your browser, and no data you enter is ever sent to our servers. We do not use any tracking pixels or fingerprinting technologies to identify you.</p>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">2. Cookies</h4>
+                    <p class="text-gray-700 mb-4">We use cookies solely to improve our website's functionality and to serve advertisements through Google AdSense. These cookies are non-essential for the core function of the calculator and are used to provide a better user experience and to help us support the costs of running this service. By using this website, you consent to the use of these cookies.</p>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">3. Third-Party Links</h4>
+                    <p class="text-gray-700 mb-4">Our website may contain links to other sites. We are not responsible for the privacy practices of those sites. We encourage you to read their privacy statements.</p>
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">4. Policy Changes</h4>
+                    <p class="text-gray-700">We reserve the right to update this Privacy Policy at any time. We will post any changes on this page.</p>
+                </section>
+
+                <!-- Contact Page -->
+                <section id="contact" class="page-section">
+                    <h2 class="text-3xl font-bold mb-6 text-gray-800">Contact Us</h2>
+                    <p class="text-gray-700 mb-4">If you have any questions, feedback, or suggestions regarding the calculator or the website, please don't hesitate to reach out.</p>
+                    <p class="text-gray-700">You can contact us via email at:</p>
+                    <p class="mt-2 text-indigo-600 font-bold">contact@uksalarycalc.com</p>
+                    <p class="text-sm text-gray-500 mt-4">For a real website, you would typically replace this with a secure contact form to prevent spam. This email is for demonstration purposes.</p>
+                </section>
+
+            </div>
+
+            <!-- Side Content Card (AdSense & Informational) -->
+            <div class="card p-6 sm:p-8 space-y-8">
+                <!-- Placeholder for AdSense Ad -->
+                <div class="text-center text-gray-500 py-12 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+                    <p>AdSense Ad Space</p>
+                    <p class="text-sm mt-2">(e.g., a 300x250 responsive ad unit)</p>
+                </div>
+                <!-- Informational Section -->
+                <div class="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">Key Facts for 2025/26</h2>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-gray-600">
+                        <li>The standard Personal Allowance is **£12,570**.</li>
+                        <li>The Basic Rate of Income Tax is **20%** on earnings between £12,571 and £50,270.</li>
+                        <li>The Higher Rate of Income Tax is **40%** on earnings between £50,271 and £125,140.</li>
+                        <li>National Insurance contributions are calculated on your weekly earnings above a certain threshold.</li>
+                        <li>Student Loan Plan 2 repayments are **9%** of earnings over **£27,295**.</li>
+                    </ul>
+                </div>
+                <!-- Another AdSense Placeholder -->
+                <div class="text-center text-gray-500 py-12 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+                    <p>AdSense Ad Space</p>
+                    <p class="text-sm mt-2">(e.g., a sticky skyscraper ad)</p>
+                </div>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-sm text-gray-500 py-6 border-t border-gray-200">
+            <p>&copy; 2025 uksalarycalc.com. All rights reserved. Calculations are for guidance only.</p>
+            <p class="mt-1">
+                <a href="#privacy" class="text-indigo-600 hover:underline nav-link">Privacy Policy</a> | 
+                <a href="#contact" class="text-indigo-600 hover:underline nav-link">Contact</a>
+            </p>
+        </footer>
+    </div>
+    
+    <!-- Modal for messages -->
+    <div id="message-modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+            <p id="modal-message" class="text-lg font-medium text-gray-800 mb-4">Message</p>
+            <button id="modal-close-button" class="bg-indigo-600 text-white py-2 px-4 rounded-md">Close</button>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+        const form = document.getElementById('calculator-form');
+        const grossSalaryInput = document.getElementById('gross-salary');
+        const payFrequencySelect = document.getElementById('pay-frequency');
+        const taxCodeInput = document.getElementById('tax-code');
+        const pensionContributionInput = document.getElementById('pension-contribution');
+        const studentLoanCheckbox = document.getElementById('student-loan');
+        const regionSelect = document.getElementById('region');
+        const resultsSection = document.getElementById('results');
+        const printButton = document.getElementById('print-button');
+        const pdfButton = document.getElementById('pdf-button');
+        
+        // Annual displays
+        const grossDisplayAnnual = document.getElementById('gross-display-annual');
+        const totalDeductionsAnnualDisplay = document.getElementById('total-deductions-annual');
+        const incomeTaxDisplayAnnual = document.getElementById('income-tax-display-annual');
+        const niDisplayAnnual = document.getElementById('ni-display-annual');
+        const pensionDisplayAnnual = document.getElementById('pension-display-annual');
+        const studentLoanDisplayAnnual = document.getElementById('student-loan-display-annual');
+        const studentLoanRowAnnual = document.getElementById('student-loan-row-annual');
+        const netPayAnnualDisplay = document.getElementById('net-pay-annual');
+
+        // Monthly displays
+        const grossDisplayMonthly = document.getElementById('gross-display-monthly');
+        const totalDeductionsMonthlyDisplay = document.getElementById('total-deductions-monthly');
+        const incomeTaxDisplayMonthly = document.getElementById('income-tax-display-monthly');
+        const niDisplayMonthly = document.getElementById('ni-display-monthly');
+        const pensionDisplayMonthly = document.getElementById('pension-display-monthly');
+        const studentLoanDisplayMonthly = document.getElementById('student-loan-display-monthly');
+        const studentLoanRowMonthly = document.getElementById('student-loan-row-monthly');
+        const netPayMonthlyDisplay = document.getElementById('net-pay-monthly');
+
+        const messageModal = document.getElementById('message-modal');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseButton = document.getElementById('modal-close-button');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageSections = document.querySelectorAll('.page-section');
+
+        const showMessage = (message) => {
+            modalMessage.textContent = message;
+            messageModal.classList.remove('hidden');
+        };
+
+        modalCloseButton.addEventListener('click', () => {
+            messageModal.classList.add('hidden');
+        });
+
+        const calculate = () => {
+            const grossSalary = parseFloat(grossSalaryInput.value);
+            const payFrequency = payFrequencySelect.value;
+            const pensionPercentage = parseFloat(pensionContributionInput.value);
+            const hasStudentLoan = studentLoanCheckbox.checked;
+            const region = regionSelect.value;
+
+            if (isNaN(grossSalary) || grossSalary < 0) {
+                showMessage('Please enter a valid gross salary.');
+                return;
+            }
+
+            if (isNaN(pensionPercentage) || pensionPercentage < 0 || pensionPercentage > 100) {
+                showMessage('Please enter a valid pension percentage (0-100).');
+                return;
+            }
+
+            // Convert to annual salary for calculation
+            let annualGrossSalary = grossSalary;
+            if (payFrequency === 'monthly') {
+                annualGrossSalary = grossSalary * 12;
+            } else if (payFrequency === 'weekly') {
+                annualGrossSalary = grossSalary * 52;
+            } else if (payFrequency === 'daily') {
+                annualGrossSalary = grossSalary * 260; // Assuming 260 working days
+            }
+
+            // Pension Contribution Calculation (deducted from gross before tax)
+            const pensionContributionAnnual = (annualGrossSalary * (pensionPercentage / 100));
+
+            // Taxable income after pension
+            const taxableIncomeForTax = annualGrossSalary - pensionContributionAnnual;
+
+            // UK Tax Year 2025/26 constants
+            const personalAllowance = 12570;
+            const niPrimaryThreshold = 12570; // £12,570
+            const niUpperEarningsLimit = 50270; // £50,270
+            const niRateBasic = 8; // 8%
+            const niRateHigher = 2; // 2%
+            const studentLoanThreshold = 27295; // £27,295
+            const studentLoanRate = 0.09; // 9%
+
+            let incomeTaxAnnual = 0;
+            let niContributionsAnnual = 0;
+            let studentLoanRepaymentAnnual = 0;
+            let effectivePersonalAllowance = personalAllowance;
+
+            // Personal Allowance Tapering for high earners
+            const additionalRateThresholdEW = 125140;
+            if (region === 'ew' && taxableIncomeForTax > additionalRateThresholdEW) {
+                const allowanceTaper = (taxableIncomeForTax - additionalRateThresholdEW) / 2;
+                effectivePersonalAllowance = Math.max(0, personalAllowance - allowanceTaper);
+            }
+            
+            const taxableIncome = Math.max(0, taxableIncomeForTax - effectivePersonalAllowance);
+            
+            // Income Tax Calculation based on region
+            if (region === 'ew') {
+                const basicRateBand = 37700;
+                const higherRateThreshold = 50270;
+                
+                if (taxableIncome > basicRateBand) {
+                    incomeTaxAnnual += basicRateBand * 0.20;
+                    const higherRateIncome = taxableIncome - basicRateBand;
+                    if (higherRateIncome > (additionalRateThresholdEW - higherRateThreshold)) {
+                         incomeTaxAnnual += (additionalRateThresholdEW - higherRateThreshold) * 0.40;
+                         const additionalRateIncome = higherRateIncome - (additionalRateThresholdEW - higherRateThreshold);
+                         incomeTaxAnnual += additionalRateIncome * 0.45;
+                    } else {
+                        incomeTaxAnnual += higherRateIncome * 0.40;
+                    }
+                } else {
+                    incomeTaxAnnual += taxableIncome * 0.20;
+                }
+            } else if (region === 'scotland') {
+                const starterRateBand = 2097;
+                const basicRateBand = 11467;
+                const intermediateRateBand = 18881;
+                const higherRateBand = 31338;
+                
+                if (taxableIncome > 0) {
+                    // Starter Rate (19%)
+                    const starterTaxable = Math.min(taxableIncome, starterRateBand);
+                    incomeTaxAnnual += starterTaxable * 0.19;
+
+                    // Basic Rate (20%)
+                    const basicTaxable = Math.min(Math.max(0, taxableIncome - starterRateBand), basicRateBand);
+                    incomeTaxAnnual += basicTaxable * 0.20;
+
+                    // Intermediate Rate (21%)
+                    const intermediateTaxable = Math.min(Math.max(0, taxableIncome - starterRateBand - basicRateBand), intermediateRateBand);
+                    incomeTaxAnnual += intermediateTaxable * 0.21;
+
+                    // Higher Rate (42%)
+                    const higherTaxable = Math.min(Math.max(0, taxableIncome - starterRateBand - basicRateBand - intermediateRateBand), higherRateBand);
+                    incomeTaxAnnual += higherTaxable * 0.42;
+
+                    // Top Rate (48%)
+                    const topTaxable = Math.max(0, taxableIncome - starterRateBand - basicRateBand - intermediateRateBand - higherRateBand);
+                    incomeTaxAnnual += topTaxable * 0.48;
+                }
+            }
+
+            // National Insurance Calculation (same for all regions)
+            const niTaxableLower = Math.max(0, annualGrossSalary - niPrimaryThreshold);
+            if (niTaxableLower > 0) {
+                const niTaxableUpper = Math.max(0, annualGrossSalary - niUpperEarningsLimit);
+                niContributionsAnnual += (niTaxableLower - niTaxableUpper) * (niRateBasic / 100);
+                niContributionsAnnual += niTaxableUpper * (niRateHigher / 100);
+            }
+
+            // Student Loan Calculation (Plan 2)
+            if (hasStudentLoan) {
+                const studentLoanTaxable = Math.max(0, annualGrossSalary - studentLoanThreshold);
+                studentLoanRepaymentAnnual = studentLoanTaxable * studentLoanRate;
+            }
+
+            const totalDeductionsAnnual = incomeTaxAnnual + niContributionsAnnual + studentLoanRepaymentAnnual + pensionContributionAnnual;
+            const netPayAnnual = annualGrossSalary - totalDeductionsAnnual;
+            const netPayMonthly = netPayAnnual / 12;
+
+            // Calculate monthly values
+            const monthlyGrossSalary = annualGrossSalary / 12;
+            const incomeTaxMonthly = incomeTaxAnnual / 12;
+            const niContributionsMonthly = niContributionsAnnual / 12;
+            const pensionContributionMonthly = pensionContributionAnnual / 12;
+            const studentLoanRepaymentMonthly = studentLoanRepaymentAnnual / 12;
+            const totalDeductionsMonthly = totalDeductionsAnnual / 12;
+
+
+            // Display annual results
+            grossDisplayAnnual.textContent = `£${annualGrossSalary.toFixed(2)}`;
+            totalDeductionsAnnualDisplay.textContent = `£${totalDeductionsAnnual.toFixed(2)}`;
+            incomeTaxDisplayAnnual.textContent = `£${incomeTaxAnnual.toFixed(2)}`;
+            niDisplayAnnual.textContent = `£${niContributionsAnnual.toFixed(2)}`;
+            pensionDisplayAnnual.textContent = `£${pensionContributionAnnual.toFixed(2)}`;
+            studentLoanDisplayAnnual.textContent = `£${studentLoanRepaymentAnnual.toFixed(2)}`;
+            
+            if (hasStudentLoan) {
+                studentLoanRowAnnual.classList.remove('hidden');
+            } else {
+                studentLoanRowAnnual.classList.add('hidden');
+            }
+
+            netPayAnnualDisplay.textContent = `£${netPayAnnual.toFixed(2)}`;
+
+            // Display monthly results
+            grossDisplayMonthly.textContent = `£${monthlyGrossSalary.toFixed(2)}`;
+            totalDeductionsMonthlyDisplay.textContent = `£${totalDeductionsMonthly.toFixed(2)}`;
+            incomeTaxDisplayMonthly.textContent = `£${incomeTaxMonthly.toFixed(2)}`;
+            niDisplayMonthly.textContent = `£${niContributionsMonthly.toFixed(2)}`;
+            pensionDisplayMonthly.textContent = `£${pensionContributionMonthly.toFixed(2)}`;
+            studentLoanDisplayMonthly.textContent = `£${studentLoanRepaymentMonthly.toFixed(2)}`;
+
+            if (hasStudentLoan) {
+                studentLoanRowMonthly.classList.remove('hidden');
+            } else {
+                studentLoanRowMonthly.classList.add('hidden');
+            }
+
+            netPayMonthlyDisplay.textContent = `£${netPayMonthly.toFixed(2)}`;
+            
+            resultsSection.classList.remove('hidden');
+        };
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            calculate();
+        });
+
+        printButton.addEventListener('click', () => {
+            window.print();
+        });
+
+        pdfButton.addEventListener('click', () => {
+            const element = document.getElementById('results');
+            html2pdf(element, {
+                margin: 10,
+                filename: 'salary_breakdown.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            });
+        });
+
+        // Navigation logic to show/hide sections
+        const showPage = (pageId) => {
+            pageSections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(pageId).style.display = 'block';
+        };
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('href').substring(1);
+                showPage(pageId);
+            });
+        });
+
+        // Show the home page on initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
