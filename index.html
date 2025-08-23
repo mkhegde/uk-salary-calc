@@ -301,7 +301,8 @@
                     <p class="text-sm text-gray-500 mt-4">For a real website, you would typically replace this with a secure contact form to prevent spam. This email is for demonstration purposes.</p>
                 </section>
             </div>
-<!-- Side Content Card (AdSense & Informational) -->
+
+ <!-- Side Content Card (AdSense & Informational) -->
 <!-- <div class="card p-6 sm:p-8 space-y-8">
     <!-- Placeholder for AdSense Ad -->
     <!--<div class="text-center text-gray-500 py-12 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
@@ -347,7 +348,7 @@
         <p class="mt-4 text-sm text-gray-600">
 Other key points:
 <br>National Insurance contributions are calculated on your weekly earnings above a certain threshold.
-<br>Student Loan Plan 2 repayments are 9% of earnings over **£27,295**.
+<br>Student Loan Plan 2 repayments are 9% of earnings over '£27,295'.
 </p>
         <div class="mt-8 pt-4 border-t border-gray-200">
             <h3 class="text-xl font-bold mb-4 text-gray-800">Calculate Your Tax Bracket</h3>
@@ -371,6 +372,128 @@ Other key points:
         <p class="text-sm mt-2">(e.g., a sticky skyscraper ad)</p>
     </div> -->
 </div> -->
+<div id="cookie-consent-banner" class="fixed inset-x-0 bottom-0 pb-2 sm:pb-5 z-50">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <div class="relative flex items-center justify-between rounded-lg bg-gray-900 p-2 shadow-lg sm:p-3">
+      <div class="flex flex-1 items-center">
+        <div class="flex flex-shrink-0 p-2">
+          <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p class="ml-3 font-medium text-white">
+          <span class="md:hidden"> We use cookies. </span>
+          <span class="hidden md:inline"> This website uses cookies to ensure you get the best experience on our website. </span>
+        </p>
+      </div>
+      <div class="flex-shrink-0">
+        <button id="accept-cookies" class="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm hover:bg-gray-50">Accept</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function calculateTaxBracket() {
+        const salary = parseFloat(document.getElementById('salary').value);
+        const resultDiv = document.getElementById('result');
+
+        if (isNaN(salary) || salary < 0) {
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = '<p class="text-red-500">Please enter a valid salary.</p>';
+            return;
+        }
+
+        let taxRate = '';
+        let taxBand = '';
+        let taxAmount = 0;
+
+        // UK tax bands for 2025/26
+        const personalAllowance = 12570;
+        const basicRateThreshold = 50270;
+        const higherRateThreshold = 125140;
+
+        if (salary <= personalAllowance) {
+            taxBand = 'Personal Allowance';
+            taxRate = '0%';
+            taxAmount = 0;
+        } else if (salary <= basicRateThreshold) {
+            taxBand = 'Basic Rate';
+            taxRate = '20%';
+            taxAmount = (salary - personalAllowance) * 0.20;
+        } else if (salary <= higherRateThreshold) {
+            taxBand = 'Higher Rate';
+            taxRate = '40%';
+            const basicTax = (basicRateThreshold - personalAllowance) * 0.20;
+            const higherTax = (salary - basicRateThreshold) * 0.40;
+            taxAmount = basicTax + higherTax;
+        } else {
+            taxBand = 'Additional Rate';
+            taxRate = '45%';
+            const basicTax = (basicRateThreshold - personalAllowance) * 0.20;
+            const higherTax = (higherRateThreshold - basicRateThreshold) * 0.40;
+            const additionalTax = (salary - higherRateThreshold) * 0.45;
+            taxAmount = basicTax + higherTax + additionalTax;
+        }
+
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = `
+            <p>Your entered salary is £${salary.toLocaleString('en-GB')}.</p>
+            <p class="mt-2">Based on the 2025/26 tax year, you fall into the '${taxBand}' band with a tax rate of '${taxRate}'.</p>
+        `;
+    }
+
+    // Cookie consent logic
+    function setCookie(name, value, days) {
+        const d = new Date();
+        d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + d.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+
+    function getCookie(name) {
+        const cname = name + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(cname) === 0) {
+                return c.substring(cname.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function checkCookieConsent() {
+        const consent = getCookie("cookieConsent");
+        if (consent === "accepted") {
+            document.getElementById('cookie-consent-banner').style.display = 'none';
+        } else {
+            document.getElementById('cookie-consent-banner').style.display = 'block';
+        }
+    }
+
+    document.getElementById('accept-cookies').addEventListener('click', function() {
+        setCookie("cookieConsent", "accepted", 365);
+        document.getElementById('cookie-consent-banner').style.display = 'none';
+        // You would typically load your analytics script here
+        // For example:
+        // const script = document.createElement('script');
+        // script.async = true;
+        // script.src = "https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX";
+        // document.head.appendChild(script);
+        // window.dataLayer = window.dataLayer || [];
+        // function gtag(){dataLayer.push(arguments);}
+        // gtag('js', new Date());
+        // gtag('config', 'G-XXXXXXXXXX');
+    });
+
+    window.onload = checkCookieConsent;
+</script>
+           
+            
 <script>
     function calculateTaxBracket() {
         const salary = parseFloat(document.getElementById('salary').value);
@@ -750,6 +873,7 @@ Other key points:
     </script>
 </body>
 </html>
+
 
 
 
