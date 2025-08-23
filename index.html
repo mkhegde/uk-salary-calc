@@ -289,7 +289,6 @@
                     <p class="text-sm text-gray-500 mt-4">For a real website, you would typically replace this with a secure contact form to prevent spam. This email is for demonstration purposes.</p>
                 </section>
             </div>
-            
 <!-- Side Content Card (AdSense & Informational) -->
 <!-- <div class="card p-6 sm:p-8 space-y-8">
     <!-- Placeholder for AdSense Ad -->
@@ -360,6 +359,57 @@ Other key points:
         <p class="text-sm mt-2">(e.g., a sticky skyscraper ad)</p>
     </div> -->
 </div> -->
+<script>
+    function calculateTaxBracket() {
+        const salary = parseFloat(document.getElementById('salary').value);
+        const resultDiv = document.getElementById('result');
+
+        if (isNaN(salary) || salary < 0) {
+            resultDiv.classList.remove('hidden');
+            resultDiv.innerHTML = '<p class="text-red-500">Please enter a valid salary.</p>';
+            return;
+        }
+
+        let taxRate = '';
+        let taxBand = '';
+        let taxAmount = 0;
+
+        // UK tax bands for 2025/26
+        const personalAllowance = 12570;
+        const basicRateThreshold = 50270;
+        const higherRateThreshold = 125140;
+
+        if (salary <= personalAllowance) {
+            taxBand = 'Personal Allowance';
+            taxRate = '0%';
+            taxAmount = 0;
+        } else if (salary <= basicRateThreshold) {
+            taxBand = 'Basic Rate';
+            taxRate = '20%';
+            taxAmount = (salary - personalAllowance) * 0.20;
+        } else if (salary <= higherRateThreshold) {
+            taxBand = 'Higher Rate';
+            taxRate = '40%';
+            const basicTax = (basicRateThreshold - personalAllowance) * 0.20;
+            const higherTax = (salary - basicRateThreshold) * 0.40;
+            taxAmount = basicTax + higherTax;
+        } else {
+            taxBand = 'Additional Rate';
+            taxRate = '45%';
+            const basicTax = (basicRateThreshold - personalAllowance) * 0.20;
+            const higherTax = (higherRateThreshold - basicRateThreshold) * 0.40;
+            const additionalTax = (salary - higherRateThreshold) * 0.45;
+            taxAmount = basicTax + higherTax + additionalTax;
+        }
+
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = `
+            <p>Your entered salary is **£${salary.toLocaleString('en-GB')}**.</p>
+            <p class="mt-2">Based on the 2025/26 tax year, you fall into the **'${taxBand}'** band with a tax rate of **'${taxRate}'**.</p>
+        `;
+    }
+</script>
+            
 <script>
     function calculateTaxBracket() {
         const salary = parseFloat(document.getElementById('salary').value);
@@ -688,6 +738,7 @@ Other key points:
     </script>
 </body>
 </html>
+
 
 
 
