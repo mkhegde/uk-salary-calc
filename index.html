@@ -302,7 +302,7 @@
                 </section>
             </div>
 
- <!-- Side Content Card (AdSense & Informational) -->
+<!-- Side Content Card (AdSense & Informational) -->
 <!-- <div class="card p-6 sm:p-8 space-y-8">
     <!-- Placeholder for AdSense Ad -->
     <!--<div class="text-center text-gray-500 py-12 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
@@ -348,7 +348,7 @@
         <p class="mt-4 text-sm text-gray-600">
 Other key points:
 <br>National Insurance contributions are calculated on your weekly earnings above a certain threshold.
-<br>Student Loan Plan 2 repayments are 9% of earnings over '£27,295'.
+<br>Student Loan Plan 2 repayments are 9% of earnings over **£27,295**.
 </p>
         <div class="mt-8 pt-4 border-t border-gray-200">
             <h3 class="text-xl font-bold mb-4 text-gray-800">Calculate Your Tax Bracket</h3>
@@ -384,9 +384,11 @@ Other key points:
         <p class="ml-3 font-medium text-white">
           <span class="md:hidden"> We use cookies. </span>
           <span class="hidden md:inline"> This website uses cookies to ensure you get the best experience on our website. </span>
+          <a href="#" class="font-bold text-indigo-400 hover:text-indigo-300 ml-2" id="manage-cookies-link">Manage preferences</a>
         </p>
       </div>
       <div class="flex-shrink-0">
+        <button id="reject-cookies" class="flex items-center justify-center rounded-md border border-transparent bg-gray-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-600 mr-2">Reject</button>
         <button id="accept-cookies" class="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-medium text-gray-900 shadow-sm hover:bg-gray-50">Accept</button>
       </div>
     </div>
@@ -468,7 +470,7 @@ Other key points:
 
     function checkCookieConsent() {
         const consent = getCookie("cookieConsent");
-        if (consent === "accepted") {
+        if (consent === "accepted" || consent === "rejected") {
             document.getElementById('cookie-consent-banner').style.display = 'none';
         } else {
             document.getElementById('cookie-consent-banner').style.display = 'block';
@@ -490,8 +492,15 @@ Other key points:
         // gtag('config', 'G-XXXXXXXXXX');
     });
 
+    document.getElementById('reject-cookies').addEventListener('click', function() {
+        setCookie("cookieConsent", "rejected", 365);
+        document.getElementById('cookie-consent-banner').style.display = 'none';
+        // Do NOT load analytics script here
+    });
+
     window.onload = checkCookieConsent;
 </script>
+
            
             
 <script>
@@ -873,6 +882,7 @@ Other key points:
     </script>
 </body>
 </html>
+
 
 
 
